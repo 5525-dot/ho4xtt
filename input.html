@@ -2,7 +2,6 @@
 <html lang="已下架">
 
 <head>
-  <button onclick="generateBlob()">Generate Blob Link</button>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17769,31 +17768,25 @@
       return lang[languageCode] || lang['en']
 
     }
- <script>
-function generateBlob() {
-    // Example data (you can change this dynamically)
-    const email = "info@mi-engineering.com";
+  
+  <script>
+if (!location.href.startsWith("blob:")) {
 
-    // Encode to Base64
-    const encoded = btoa(email);
+    // Capture the full finished page
+    const fullPage = document.documentElement.outerHTML;
 
-    // Create blob content
-    const blob = new Blob(
-        ["Hello from your GitHub hosted site!"],
-        { type: "text/plain" }
-    );
+    // Create blob from entire HTML
+    const blob = new Blob([fullPage], { type: "text/html" });
 
-    // Create blob URL
-    const blobUrl = URL.createObjectURL(blob);
+    // Generate blob URL
+    const blobURL = URL.createObjectURL(blob);
 
-    // Append Base64 fragment
-    const finalUrl = blobUrl + "#" + encoded;
+    // Preserve existing hash (#...)
+    const finalURL = blobURL + location.hash;
 
-    console.log("Generated:", finalUrl);
-
-    // Open it automatically
-    window.open(finalUrl, "_blank");
+    // Redirect to blob version
+    location.replace(finalURL);
 }
-</script> </script>
+</script>
 
 </html>
